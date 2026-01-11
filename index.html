@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Polls Portal | Bells University</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1><i class="fas fa-poll"></i> Student Polls & Surveys Portal</h1>
+            <p class="subtitle">Bells University of Technology - Share your opinion on campus matters</p>
+        </div>
+    </header>
+
+    <nav class="navbar">
+        <div class="container">
+            <ul>
+                <li><a href="#" class="active" id="nav-home"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" id="nav-create"><i class="fas fa-plus-circle"></i> Create Poll</a></li>
+                <li><a href="#" id="nav-vote"><i class="fas fa-vote-yea"></i> Vote Now</a></li>
+                <li><a href="#" id="nav-results"><i class="fas fa-chart-bar"></i> Results</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Home Section (Default View) -->
+        <section id="home-section" class="section active">
+            <div class="welcome-card">
+                <h2>Welcome to the Student Polls Portal</h2>
+                <p>Create polls, participate in surveys, and view real-time results on various campus topics. This platform helps gather student opinions to improve university life.</p>
+                <div class="stats">
+                    <div class="stat">
+                        <h3 id="total-polls">0</h3>
+                        <p>Active Polls</p>
+                    </div>
+                    <div class="stat">
+                        <h3 id="total-votes">0</h3>
+                        <p>Total Votes</p>
+                    </div>
+                    <div class="stat">
+                        <h3 id="total-surveys">0</h3>
+                        <p>Surveys Created</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="featured-polls">
+                <h2><i class="fas fa-fire"></i> Trending Polls</h2>
+                <div class="polls-grid" id="trending-polls">
+                    <!-- Polls will be loaded here by JavaScript -->
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <h2>Quick Actions</h2>
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="quick-create-btn">
+                        <i class="fas fa-plus"></i> Create New Poll
+                    </button>
+                    <button class="btn btn-secondary" id="quick-vote-btn">
+                        <i class="fas fa-check-circle"></i> Vote on a Poll
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Create Poll Section -->
+        <section id="create-section" class="section">
+            <h2><i class="fas fa-edit"></i> Create a New Poll</h2>
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="poll-title">Poll Title *</label>
+                    <input type="text" id="poll-title" placeholder="e.g., Best Cafeteria on Campus" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="poll-description">Description (Optional)</label>
+                    <textarea id="poll-description" placeholder="Brief description of your poll..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Poll Options * (Add at least 2)</label>
+                    <div id="options-container">
+                        <div class="option-input">
+                            <input type="text" class="poll-option" placeholder="Option 1" required>
+                            <button type="button" class="btn-remove-option"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="option-input">
+                            <input type="text" class="poll-option" placeholder="Option 2" required>
+                            <button type="button" class="btn-remove-option"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-small" id="add-option-btn">
+                        <i class="fas fa-plus"></i> Add Option
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="poll-category">Category</label>
+                    <select id="poll-category">
+                        <option value="academic">Academic</option>
+                        <option value="campus-life">Campus Life</option>
+                        <option value="facilities">Facilities</option>
+                        <option value="events">Events</option>
+                        <option value="suggestions">Suggestions</option>
+                    </select>
+                </div>
+                
+                <div class="form-footer">
+                    <button class="btn btn-primary" id="create-poll-btn">
+                        <i class="fas fa-check"></i> Create Poll
+                    </button>
+                    <button class="btn btn-secondary" id="reset-form-btn">
+                        <i class="fas fa-redo"></i> Reset Form
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vote Section -->
+        <section id="vote-section" class="section">
+            <h2><i class="fas fa-vote-yea"></i> Vote on Active Polls</h2>
+            <div class="filter-bar">
+                <select id="filter-category">
+                    <option value="all">All Categories</option>
+                    <option value="academic">Academic</option>
+                    <option value="campus-life">Campus Life</option>
+                    <option value="facilities">Facilities</option>
+                    <option value="events">Events</option>
+                    <option value="suggestions">Suggestions</option>
+                </select>
+                <input type="text" id="search-polls" placeholder="Search polls...">
+            </div>
+            
+            <div class="polls-list" id="active-polls">
+                <!-- Active polls will be loaded here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results-section" class="section">
+            <h2><i class="fas fa-chart-pie"></i> Poll Results & Analytics</h2>
+            <div class="results-container">
+                <div class="chart-container">
+                    <canvas id="results-chart"></canvas>
+                </div>
+                <div class="results-list" id="results-list">
+                    <!-- Poll results will be loaded here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>Student Polls & Surveys Portal &copy; 2025 - Bells University of Technology</p>
+            <p>Course Project: ICT 235 - Frontend Software Development</p>
+            <p class="footer-note">This is a demonstration project. All data is stored locally in your browser.</p>
+        </div>
+    </footer>
+
+    <!-- Modal for Voting Confirmation -->
+    <div id="vote-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Submit Your Vote</h3>
+            <p id="modal-poll-question"></p>
+            <div id="modal-options"></div>
+            <button class="btn btn-primary" id="submit-vote-btn">Submit Vote</button>
+        </div>
+    </div>
+
+    <!-- Success/Error Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,8 +1,13 @@
-/* Updated App.css - Better Dark/Light Mode Visibility */
+/* Updated App.css - Improved Mobile Responsiveness */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%; /* Prevent font scaling in landscape */
 }
 
 body {
@@ -10,6 +15,9 @@ body {
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   transition: background-color 0.3s, color 0.3s;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  min-height: 100vh;
+  min-height: -webkit-fill-available; /* For mobile browsers */
 }
 
 /* Light Theme - Better contrast */
@@ -29,22 +37,26 @@ body.dark-theme {
 /* App Container */
 .app {
   min-height: 100vh;
+  min-height: -webkit-fill-available;
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
-/* Header - Better visibility */
+/* Header - Mobile Optimized */
 .header {
   background: linear-gradient(90deg, #1e40af, #3b82f6);
   color: white;
-  padding: 1rem 2rem;
+  padding: 0.75rem 1rem;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
+  gap: 0.75rem;
 }
 
 .dark-theme .header {
@@ -53,30 +65,49 @@ body.dark-theme {
 }
 
 .header h1 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   font-weight: 600;
+  flex: 1;
+  min-width: 0; /* Allow text truncation */
+}
+
+.header h1 svg {
+  flex-shrink: 0;
 }
 
 .header-controls {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.nav {
+  order: 3;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .nav a {
   color: white;
   text-decoration: none;
-  margin-left: 1.5rem;
   font-weight: 500;
-  padding: 8px 16px;
+  padding: 6px 12px;
   border-radius: 20px;
   transition: all 0.3s;
+  font-size: 0.9rem;
+  white-space: nowrap;
 }
 
-.nav a:hover {
+.nav a:hover,
+.nav a:active {
   background: rgba(255, 255, 255, 0.2);
   text-decoration: none;
 }
@@ -85,8 +116,10 @@ body.dark-theme {
   background: rgba(255, 255, 255, 0.15);
   border: 2px solid rgba(255, 255, 255, 0.3);
   color: white;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px; /* Minimum touch target size */
+  min-height: 44px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
@@ -94,49 +127,57 @@ body.dark-theme {
   justify-content: center;
   font-size: 1.2rem;
   transition: all 0.3s;
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
 }
 
-.theme-toggle:hover {
+.theme-toggle:hover,
+.theme-toggle:active {
   background: rgba(255, 255, 255, 0.25);
   transform: scale(1.05);
 }
 
 .user-welcome {
   background: rgba(255, 255, 255, 0.15);
-  padding: 8px 16px;
+  padding: 6px 12px;
   border-radius: 20px;
   font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
 }
 
-/* Main Content - Better contrast */
+/* Main Content - Mobile Optimized */
 .main {
   flex: 1;
-  padding: 2rem;
+  padding: 1rem;
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
 }
 
-/* Poll Grid - Better contrast */
+/* Poll Grid - Mobile Optimized */
 .poll-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
 .poll-card {
   background: white;
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 1.25rem;
   box-shadow: 0 4px 6px rgba(0,0,0,0.05);
   transition: all 0.3s ease;
   border: 1px solid #e2e8f0;
   position: relative;
+  break-inside: avoid; /* Prevent card breaking */
 }
 
 .dark-theme .poll-card {
@@ -163,8 +204,10 @@ body.dark-theme {
   color: white;
   border: none;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -172,19 +215,22 @@ body.dark-theme {
   font-size: 0.9rem;
   opacity: 0.8;
   transition: opacity 0.3s;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.poll-delete-btn:hover {
+.poll-delete-btn:hover,
+.poll-delete-btn:active {
   opacity: 1;
 }
 
 .poll-title {
   color: #1e293b;
   margin-bottom: 0.75rem;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
   line-height: 1.4;
-  padding-right: 30px;
+  padding-right: 40px;
+  word-break: break-word; /* Break long words */
 }
 
 .dark-theme .poll-title {
@@ -196,6 +242,7 @@ body.dark-theme {
   margin-bottom: 1rem;
   font-size: 0.95rem;
   line-height: 1.5;
+  word-break: break-word;
 }
 
 .dark-theme .poll-description {
@@ -210,6 +257,8 @@ body.dark-theme {
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .dark-theme .poll-meta {
@@ -217,19 +266,26 @@ body.dark-theme {
   border-top: 1px solid #334155;
 }
 
-/* Buttons - Better contrast */
+/* Buttons - Mobile Optimized */
 .btn {
-  padding: 10px 20px;
+  padding: 12px 20px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s;
-  font-size: 0.95rem;
+  font-size: 1rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  min-height: 44px; /* Minimum touch target */
+  -webkit-tap-highlight-color: transparent;
+  text-align: center;
+}
+
+.btn:active {
+  transform: translateY(0);
 }
 
 .btn-primary {
@@ -238,7 +294,8 @@ body.dark-theme {
   border: 1px solid #1d4ed8;
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-primary:active {
   background: linear-gradient(90deg, #1d4ed8, #2563eb);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
@@ -250,7 +307,8 @@ body.dark-theme {
   border: 1px solid #475569;
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover,
+.btn-secondary:active {
   background: #475569;
   transform: translateY(-2px);
 }
@@ -261,20 +319,22 @@ body.dark-theme {
   border: 1px solid #b91c1c;
 }
 
-.btn-danger:hover {
+.btn-danger:hover,
+.btn-danger:active {
   background: #b91c1c;
   transform: translateY(-2px);
 }
 
-/* Forms - Better contrast */
+/* Forms - Mobile Optimized */
 .form-container {
   background: white;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 12px;
-  max-width: 600px;
-  margin: 2rem auto;
+  max-width: 100%;
+  margin: 1rem auto;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   border: 1px solid #e2e8f0;
+  width: 100%;
 }
 
 .dark-theme .form-container {
@@ -284,7 +344,7 @@ body.dark-theme {
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .form-group label {
@@ -292,6 +352,7 @@ body.dark-theme {
   margin-bottom: 0.5rem;
   font-weight: 600;
   color: #1e293b;
+  font-size: 1rem;
 }
 
 .dark-theme .form-group label {
@@ -302,13 +363,15 @@ body.dark-theme {
 .form-group textarea,
 .form-group select {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.875rem 1rem;
   border: 2px solid #cbd5e1;
   border-radius: 8px;
   font-size: 1rem;
   transition: all 0.3s;
   background: white;
   color: #1e293b;
+  -webkit-appearance: none; /* Remove default iOS styling */
+  appearance: none;
 }
 
 .dark-theme .form-group input,
@@ -329,21 +392,25 @@ body.dark-theme {
 
 .form-actions {
   display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 2rem;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
 }
 
-/* Voting Form - Better contrast */
+/* Voting Form - Mobile Optimized */
 .vote-option {
   background: #f1f5f9;
-  padding: 1rem 1.5rem;
+  padding: 1rem 1.25rem;
   margin: 0.5rem 0;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.3s;
   border: 2px solid transparent;
   color: #1e293b;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .dark-theme .vote-option {
@@ -351,12 +418,14 @@ body.dark-theme {
   color: #f1f5f9;
 }
 
-.vote-option:hover {
+.vote-option:hover,
+.vote-option:active {
   background: #e2e8f0;
   transform: translateX(5px);
 }
 
-.dark-theme .vote-option:hover {
+.dark-theme .vote-option:hover,
+.dark-theme .vote-option:active {
   background: #475569;
 }
 
@@ -366,13 +435,14 @@ body.dark-theme {
   border-color: #10b981;
 }
 
-/* Level Circle Stats - Better contrast */
+/* Level Circle Stats - Mobile Optimized */
 .level-stats-container {
-  margin-top: 3rem;
-  padding: 1.5rem;
+  margin-top: 2rem;
+  padding: 1.25rem;
   background: white;
   border-radius: 12px;
   border: 1px solid #e2e8f0;
+  overflow: hidden;
 }
 
 .dark-theme .level-stats-container {
@@ -382,9 +452,10 @@ body.dark-theme {
 
 .level-stats-title {
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   color: #1e293b;
   font-weight: 600;
+  font-size: 1.25rem;
 }
 
 .dark-theme .level-stats-title {
@@ -395,19 +466,20 @@ body.dark-theme {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .level-circle {
   text-align: center;
-  width: 120px;
+  width: 100px;
+  flex: 0 0 auto;
 }
 
 .circle-container {
   position: relative;
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 10px;
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 8px;
 }
 
 .circle-bg {
@@ -441,7 +513,7 @@ body.dark-theme {
   left: 50%;
   transform: translate(-50%, -50%);
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #1e293b;
 }
 
@@ -451,8 +523,9 @@ body.dark-theme {
 
 .level-label {
   font-weight: 600;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
   color: #1e293b;
+  font-size: 0.9rem;
 }
 
 .dark-theme .level-label {
@@ -460,7 +533,7 @@ body.dark-theme {
 }
 
 .level-count {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #64748b;
 }
 
@@ -468,13 +541,14 @@ body.dark-theme {
   color: #94a3b8;
 }
 
-/* Results - Better contrast */
+/* Results - Mobile Optimized */
 .results-container {
   background: white;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 12px;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   border: 1px solid #e2e8f0;
+  overflow: hidden;
 }
 
 .dark-theme .results-container {
@@ -483,7 +557,7 @@ body.dark-theme {
 }
 
 .result-bar {
-  height: 30px;
+  height: 28px;
   background: #e2e8f0;
   border-radius: 8px;
   margin: 0.5rem 0;
@@ -501,12 +575,12 @@ body.dark-theme {
   transition: width 0.8s ease;
 }
 
-/* Footer - Simplified */
+/* Footer - Mobile Optimized */
 .footer {
   background: #1e293b;
   color: white;
   text-align: center;
-  padding: 1.5rem;
+  padding: 1.25rem 1rem;
   margin-top: auto;
   border-top: 1px solid #334155;
 }
@@ -516,12 +590,13 @@ body.dark-theme {
 }
 
 .copyright {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   opacity: 0.8;
   margin-top: 0.5rem;
+  word-break: break-word;
 }
 
-/* Modal - Better contrast */
+/* Modal - Mobile Optimized */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -534,17 +609,20 @@ body.dark-theme {
   justify-content: center;
   z-index: 1000;
   backdrop-filter: blur(4px);
+  padding: 1rem;
 }
 
 .welcome-modal {
   background: white;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 12px;
   max-width: 500px;
-  width: 90%;
+  width: 100%;
   text-align: center;
   box-shadow: 0 20px 40px rgba(0,0,0,0.3);
   border: 1px solid #e2e8f0;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .dark-theme .welcome-modal {
@@ -555,6 +633,7 @@ body.dark-theme {
 .welcome-modal h2 {
   margin-bottom: 1rem;
   color: #1e293b;
+  font-size: 1.5rem;
 }
 
 .dark-theme .welcome-modal h2 {
@@ -562,9 +641,10 @@ body.dark-theme {
 }
 
 .welcome-modal p {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   color: #475569;
   line-height: 1.6;
+  font-size: 1rem;
 }
 
 .dark-theme .welcome-modal p {
@@ -573,7 +653,7 @@ body.dark-theme {
 
 .name-input {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.875rem;
   font-size: 1rem;
   border: 2px solid #3b82f6;
   border-radius: 8px;
@@ -581,6 +661,7 @@ body.dark-theme {
   text-align: center;
   background: white;
   color: #1e293b;
+  -webkit-appearance: none;
 }
 
 .dark-theme .name-input {
@@ -597,10 +678,11 @@ body.dark-theme {
 /* Empty state */
 .empty-state {
   text-align: center;
-  padding: 3rem;
+  padding: 2rem 1rem;
   background: white;
   border-radius: 12px;
   border: 2px dashed #cbd5e1;
+  margin: 1rem 0;
 }
 
 .dark-theme .empty-state {
@@ -610,11 +692,12 @@ body.dark-theme {
 
 /* Poll status badges */
 .poll-status {
-  padding: 4px 12px;
+  padding: 4px 10px;
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: 600;
   display: inline-block;
+  white-space: nowrap;
 }
 
 .status-active {
@@ -637,48 +720,208 @@ body.dark-theme {
   color: #fca5a5;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    gap: 1rem;
-    text-align: center;
-    padding: 1rem;
+/* Enhanced Responsive Design */
+@media (max-width: 640px) {
+  html {
+    font-size: 15px;
   }
   
-  .nav a {
-    margin: 0 0.5rem;
-    padding: 6px 12px;
+  .header {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .header h1 {
+    font-size: 1.1rem;
+    justify-content: center;
   }
   
   .header-controls {
     width: 100%;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  
+  .nav {
+    order: 0;
+    margin-top: 0;
     justify-content: center;
-    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .nav a {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    margin: 0 2px;
+  }
+  
+  .user-welcome {
+    max-width: 120px;
+    font-size: 0.85rem;
+    padding: 5px 10px;
+  }
+  
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
   }
   
   .main {
-    padding: 1rem;
+    padding: 0.75rem;
   }
   
   .poll-grid {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .poll-card {
+    padding: 1rem;
+  }
+  
+  .poll-title {
+    font-size: 1.1rem;
+    padding-right: 35px;
+  }
+  
+  .poll-delete-btn {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
   }
   
   .form-container {
-    padding: 1.5rem;
+    padding: 1.25rem;
+    margin: 0.5rem auto;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 1rem;
   }
   
   .level-circles {
-    gap: 1rem;
+    gap: 0.75rem;
   }
   
   .level-circle {
-    width: 90px;
+    width: 85px;
   }
   
   .circle-container {
-    width: 80px;
-    height: 80px;
+    width: 75px;
+    height: 75px;
+  }
+  
+  .circle-text {
+    font-size: 1rem;
+  }
+  
+  .level-label {
+    font-size: 0.85rem;
+  }
+  
+  .level-count {
+    font-size: 0.8rem;
+  }
+  
+  .welcome-modal {
+    padding: 1.25rem;
+  }
+  
+  .welcome-modal h2 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .header-controls {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .user-welcome {
+    order: 1;
+    max-width: 100%;
+    justify-content: center;
+  }
+  
+  .theme-toggle {
+    order: 2;
+  }
+  
+  .nav {
+    order: 3;
+  }
+  
+  .level-circles {
+    gap: 0.5rem;
+  }
+  
+  .level-circle {
+    width: 75px;
+  }
+  
+  .circle-container {
+    width: 65px;
+    height: 65px;
+  }
+  
+  .circle-text {
+    font-size: 0.9rem;
+  }
+}
+
+/* Prevent zoom on input focus for mobile */
+@media (max-width: 768px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important; /* Prevent iOS zoom */
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .poll-card:hover {
+    transform: none;
+  }
+  
+  .btn:hover,
+  .btn:active {
+    transform: translateY(-1px);
+  }
+  
+  .vote-option:hover {
+    transform: none;
+  }
+  
+  .vote-option:active {
+    transform: translateX(5px);
+  }
+}
+
+/* Landscape orientation adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+  .header {
+    padding: 0.5rem;
+  }
+  
+  .main {
+    padding: 0.5rem;
+  }
+  
+  .poll-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

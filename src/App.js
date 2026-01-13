@@ -1,3 +1,5 @@
+[file name]: App.js
+[file content begin]
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
@@ -290,7 +292,17 @@ function App() {
       case 'create':
         return (
           <div className="form-container">
-            <h2>Create New Poll</h2>
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem'}}>
+              <h2 style={{margin: 0}}>Create New Poll</h2>
+              <button 
+                type="button" 
+                className="btn btn-secondary"
+                onClick={() => setView('home')}
+                style={{padding: '8px 16px'}}
+              >
+                ← Back
+              </button>
+            </div>
             <form onSubmit={handleCreatePoll}>
               <div className="form-group">
                 <label>Poll Title</label>
@@ -310,6 +322,7 @@ function App() {
                   onChange={(e) => setNewPoll({...newPoll, description: e.target.value})}
                   required
                   placeholder="Describe your poll"
+                  rows="3"
                 />
               </div>
               
@@ -322,7 +335,7 @@ function App() {
                     value={option}
                     onChange={(e) => updateOption(index, e.target.value)}
                     placeholder={`Option ${index + 1}`}
-                    className="form-group"
+                    style={{marginBottom: '0.75rem'}}
                     required={index < 2}
                   />
                 ))}
@@ -330,21 +343,14 @@ function App() {
                   type="button" 
                   onClick={addOption}
                   className="btn btn-secondary"
-                  style={{marginTop: '0.5rem'}}
+                  style={{marginTop: '0.5rem', width: '100%'}}
                 >
-                  Add Option
+                  + Add Option
                 </button>
               </div>
               
               <div className="form-actions">
-                <button 
-                  type="button" 
-                  className="btn btn-secondary"
-                  onClick={() => setView('home')}
-                >
-                  Cancel
-                </button>
-                <button type="submit" className="btn btn-primary">
+                <button type="submit" className="btn btn-primary" style={{width: '100%'}}>
                   Create Poll
                 </button>
               </div>
@@ -358,21 +364,22 @@ function App() {
             <button 
               className="btn btn-secondary"
               onClick={() => setView('home')}
-              style={{marginBottom: '1.5rem'}}
+              style={{marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '5px'}}
             >
               ← Back to Polls
             </button>
             
-            <h2>{selectedPoll.title}</h2>
-            <p>{selectedPoll.description}</p>
+            <h2 style={{marginBottom: '0.5rem'}}>{selectedPoll.title}</h2>
+            <p style={{marginBottom: '1.5rem', color: darkMode ? '#cbd5e1' : '#475569'}}>{selectedPoll.description}</p>
             
-            <div style={{margin: '2rem 0'}}>
-              <h3>Select your vote:</h3>
+            <div style={{margin: '1.5rem 0'}}>
+              <h3 style={{marginBottom: '1rem'}}>Select your vote:</h3>
               {selectedPoll.votes.map((option, index) => (
                 <div 
                   key={index}
                   className={`vote-option ${vote === option.option ? 'selected' : ''}`}
                   onClick={() => setVote(option.option)}
+                  style={{marginBottom: '0.75rem'}}
                 >
                   {option.option}
                 </div>
@@ -384,6 +391,7 @@ function App() {
                 className="btn btn-primary"
                 onClick={handleVote}
                 disabled={!vote}
+                style={{width: '100%', padding: '12px'}}
               >
                 Submit Vote
               </button>
@@ -400,21 +408,21 @@ function App() {
             <button 
               className="btn btn-secondary"
               onClick={() => setView('home')}
-              style={{marginBottom: '1.5rem'}}
+              style={{marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '5px'}}
             >
               ← Back to Polls
             </button>
             
-            <h2>{poll.title} - Results</h2>
-            <p>{poll.description}</p>
+            <h2 style={{marginBottom: '0.5rem'}}>{poll.title} - Results</h2>
+            <p style={{marginBottom: '1.5rem', color: darkMode ? '#cbd5e1' : '#475569'}}>{poll.description}</p>
             
-            <div style={{marginTop: '2rem'}}>
-              <h3>Total Votes: {totalVotes}</h3>
+            <div style={{marginTop: '1rem'}}>
+              <h3 style={{marginBottom: '1rem'}}>Total Votes: {totalVotes}</h3>
               
               {poll.votes.map((result, index) => (
                 <div key={index} style={{margin: '1rem 0'}}>
                   <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem'}}>
-                    <span>{result.option}</span>
+                    <span style={{fontWeight: '500'}}>{result.option}</span>
                     <span>{result.count} votes ({calculatePercentage(result.count, totalVotes)}%)</span>
                   </div>
                   <div className="result-bar">
@@ -425,11 +433,11 @@ function App() {
                   </div>
                   
                   {/* Level breakdown for this option */}
-                  <div style={{marginTop: '0.5rem', fontSize: '0.9rem', color: darkMode ? '#b2bec3' : '#636e72'}}>
-                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                  <div style={{marginTop: '0.75rem', fontSize: '0.85rem', color: darkMode ? '#b2bec3' : '#636e72'}}>
+                    <div style={{display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap'}}>
                       {['100', '200', '300', '400', '500'].map(level => (
-                        <div key={level} style={{textAlign: 'center'}}>
-                          <div>Lvl {level}</div>
+                        <div key={level} style={{textAlign: 'center', flex: '1', minWidth: '60px', margin: '3px'}}>
+                          <div style={{fontWeight: '500'}}>Lvl {level}</div>
                           <div>{result.levels[level] || 0}</div>
                         </div>
                       ))}
@@ -447,8 +455,15 @@ function App() {
       default: // Home view
         return (
           <>
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem'}}>
-              <h2>Active Polls</h2>
+            <div style={{
+              display: 'flex', 
+              flexDirection: window.innerWidth < 768 ? 'column' : 'row',
+              justifyContent: 'space-between', 
+              alignItems: window.innerWidth < 768 ? 'stretch' : 'center', 
+              marginBottom: '1.5rem',
+              gap: window.innerWidth < 768 ? '1rem' : '0'
+            }}>
+              <h2 style={{margin: 0, textAlign: window.innerWidth < 768 ? 'center' : 'left'}}>Active Polls</h2>
               <button 
                 className="btn btn-primary"
                 onClick={() => {
@@ -458,48 +473,78 @@ function App() {
                     setView('create');
                   }
                 }}
+                style={{minWidth: window.innerWidth < 768 ? '100%' : 'auto'}}
               >
-                Create New Poll
+                + Create New Poll
               </button>
             </div>
             
-            <div className="poll-grid">
-              {polls.map(poll => (
-                <div key={poll.id} className="poll-card">
-                  <h3 className="poll-title">{poll.title}</h3>
-                  <p className="poll-description">{poll.description}</p>
-                  
-                  <div className="poll-meta">
-                    <span>By: {poll.createdBy}</span>
-                    <span>{poll.participants} votes</span>
-                  </div>
-                  
-                  <div style={{display: 'flex', gap: '0.5rem', marginTop: '1rem'}}>
-                    <button 
-                      className="btn btn-primary"
-                      onClick={() => {
-                        setSelectedPoll(poll);
-                        setView('vote');
-                      }}
-                    >
-                      Vote Now
-                    </button>
-                    <button 
-                      className="btn btn-secondary"
-                      onClick={() => {
-                        setSelectedPoll(poll);
-                        setView('results');
-                      }}
-                    >
-                      View Results
-                    </button>
-                  </div>
+            {polls.length === 0 ? (
+              <div className="empty-state">
+                <h3>No polls available</h3>
+                <p>Be the first to create a poll!</p>
+                <button 
+                  className="btn btn-primary"
+                  onClick={() => {
+                    if (!currentUser) {
+                      setShowWelcomeModal(true);
+                    } else {
+                      setView('create');
+                    }
+                  }}
+                  style={{marginTop: '1rem'}}
+                >
+                  Create First Poll
+                </button>
+              </div>
+            ) : (
+              <>
+                <div className="poll-grid">
+                  {polls.map(poll => (
+                    <div key={poll.id} className="poll-card">
+                      <h3 className="poll-title">{poll.title}</h3>
+                      <p className="poll-description">{poll.description}</p>
+                      
+                      <div className="poll-meta">
+                        <span>By: {poll.createdBy}</span>
+                        <span>{poll.participants} votes</span>
+                      </div>
+                      
+                      <div style={{
+                        display: 'flex', 
+                        flexDirection: window.innerWidth < 400 ? 'column' : 'row',
+                        gap: '0.5rem', 
+                        marginTop: '1rem'
+                      }}>
+                        <button 
+                          className="btn btn-primary"
+                          onClick={() => {
+                            setSelectedPoll(poll);
+                            setView('vote');
+                          }}
+                          style={{flex: window.innerWidth < 400 ? '1' : '0'}}
+                        >
+                          Vote Now
+                        </button>
+                        <button 
+                          className="btn btn-secondary"
+                          onClick={() => {
+                            setSelectedPoll(poll);
+                            setView('results');
+                          }}
+                          style={{flex: window.innerWidth < 400 ? '1' : '0'}}
+                        >
+                          View Results
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            
-            {/* Level Statistics on Home Page */}
-            {renderLevelStatistics()}
+                
+                {/* Level Statistics on Home Page */}
+                {renderLevelStatistics()}
+              </>
+            )}
           </>
         );
     }
@@ -509,15 +554,15 @@ function App() {
     <div className="app">
       {/* Welcome/Registration Modal */}
       {showWelcomeModal && (
-        <div className="modal-overlay">
-          <div className="welcome-modal">
-            <h2>🎓 Bells University Student Registration</h2>
-            <p>
+        <div className="modal-overlay" onClick={() => {}}>
+          <div className="welcome-modal" onClick={(e) => e.stopPropagation()}>
+            <h2 style={{marginBottom: '1rem'}}>🎓 Bells University Student Registration</h2>
+            <p style={{marginBottom: '1.5rem'}}>
               Please register to participate in student polls and surveys.
               Your data helps us analyze voting patterns by academic level.
             </p>
             
-            <div className="form-group">
+            <div className="form-group" style={{marginBottom: '1rem'}}>
               <label>Matriculation Number</label>
               <input
                 type="text"
@@ -525,10 +570,11 @@ function App() {
                 placeholder="e.g., CSC/2021/001"
                 value={matricNumber}
                 onChange={(e) => setMatricNumber(e.target.value)}
+                style={{textAlign: 'left', padding: '12px'}}
               />
             </div>
             
-            <div className="form-group">
+            <div className="form-group" style={{marginBottom: '1rem'}}>
               <label>Full Name</label>
               <input
                 type="text"
@@ -536,15 +582,17 @@ function App() {
                 placeholder="Enter your full name"
                 value={studentName}
                 onChange={(e) => setStudentName(e.target.value)}
+                style={{textAlign: 'left', padding: '12px'}}
               />
             </div>
             
-            <div className="form-group">
+            <div className="form-group" style={{marginBottom: '1.5rem'}}>
               <label>Academic Level</label>
               <select 
                 className="name-input"
                 value={studentLevel}
                 onChange={(e) => setStudentLevel(e.target.value)}
+                style={{textAlign: 'left', padding: '12px'}}
               >
                 <option value="100">100 Level</option>
                 <option value="200">200 Level</option>
@@ -558,9 +606,28 @@ function App() {
               className="btn btn-primary"
               onClick={handleUserRegistration}
               disabled={!matricNumber.trim() || !studentName.trim()}
-              style={{width: '100%', padding: '1rem'}}
+              style={{width: '100%', padding: '14px', fontSize: '1rem'}}
             >
               Register & Continue
+            </button>
+            
+            <button 
+              className="btn btn-secondary"
+              onClick={() => {
+                // Allow skipping registration with a demo account
+                const demoUser = {
+                  id: 'DEMO001',
+                  name: 'Demo Student',
+                  level: '100',
+                  matric: 'DEMO/2021/001'
+                };
+                localStorage.setItem('pollsUser', JSON.stringify(demoUser));
+                setCurrentUser(demoUser);
+                setShowWelcomeModal(false);
+              }}
+              style={{width: '100%', padding: '12px', marginTop: '1rem', fontSize: '0.9rem'}}
+            >
+              Continue as Demo User
             </button>
           </div>
         </div>
@@ -571,7 +638,44 @@ function App() {
         <h1>📊 Bells Poll Portal</h1>
         
         <div className="header-controls">
-          <nav className="nav">
+          {window.innerWidth > 768 && (
+            <nav className="nav">
+              <a href="#" onClick={(e) => { e.preventDefault(); setView('home'); }}>
+                Home
+              </a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setView('create'); }}>
+                Create Poll
+              </a>
+            </nav>
+          )}
+          
+          <button 
+            className="theme-toggle"
+            onClick={toggleDarkMode}
+            title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            aria-label={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          >
+            {darkMode ? '☀️' : '🌙'}
+          </button>
+          
+          {currentUser && (
+            <div className="user-welcome">
+              <span style={{display: window.innerWidth < 400 ? 'none' : 'inline'}}>👤</span>
+              <span style={{
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                maxWidth: window.innerWidth < 400 ? '80px' : '120px'
+              }}>
+                {currentUser.name} (Lvl {currentUser.level})
+              </span>
+            </div>
+          )}
+        </div>
+        
+        {/* Mobile Navigation */}
+        {window.innerWidth <= 768 && (
+          <nav className="nav" style={{marginTop: '0.5rem', width: '100%'}}>
             <a href="#" onClick={(e) => { e.preventDefault(); setView('home'); }}>
               Home
             </a>
@@ -579,21 +683,7 @@ function App() {
               Create Poll
             </a>
           </nav>
-          
-          <button 
-            className="theme-toggle"
-            onClick={toggleDarkMode}
-            title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-          >
-            {darkMode ? '☀️' : '🌙'}
-          </button>
-          
-          {currentUser && (
-            <div className="user-welcome">
-              👤 {currentUser.name} (Lvl {currentUser.level})
-            </div>
-          )}
-        </div>
+        )}
       </header>
 
       {/* Main Content */}
@@ -603,8 +693,9 @@ function App() {
 
       {/* Simplified Footer */}
       <footer className="footer">
-        <p>© 2026 Dev-x235 |  Student Polls & Surveys Portal</p>
+        <p>© 2026 Dev-x235 | Student Polls & Surveys Portal</p>
         <p className="copyright">
+          Bells University - All rights reserved
         </p>
       </footer>
     </div>
@@ -612,3 +703,4 @@ function App() {
 }
 
 export default App;
+[file content end]

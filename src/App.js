@@ -1,5 +1,3 @@
-[file name]: App.js
-[file content begin]
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
@@ -703,4 +701,3 @@ function App() {
 }
 
 export default App;
-[file content end]

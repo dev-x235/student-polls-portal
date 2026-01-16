@@ -43,7 +43,7 @@ This project is a **Student Polls & Surveys Portal** designed to provide an inte
 ## 📂 Project Resources  
 - **GitHub Repository:** [https://github.com/dev-x235/student-polls-portal](https://github.com/dev-x235/student-polls-portal)  
 - **Figma Prototype:** [https://earth-pear-37458261.figma.site/](https://earth-pear-37458261.figma.site/)
-- - **Site:** [https://student-poll-portal.vercel.app/](https://student-poll-portal.vercel.app/)
+- **Site:** [https://student-poll-portal.vercel.app/](https://student-poll-portal.vercel.app/)
 
 ---
 

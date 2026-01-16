@@ -2,7 +2,7 @@
 **Frontend Software Development Project**  
 *Bells University of Technology – New Horizons ICT*  
 **Course:** ICT 235  
-**Date:** 16 january
+**Date:** 16 january 2026
 
 ---
 
